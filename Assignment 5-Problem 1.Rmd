@@ -9,5 +9,108 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+```{r,echo = FALSE, message = FALSE}
+library(tidyverse)
+```
 1) Male and female graduate enrollment (1967 - 2015). Compare trends in total graduate enrollment
-for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
+for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.https://github.com/lauraing/Assignment-5-Problem-1.git
+
+
+
+```{r}
+
+GradEnroll<- read.csv("Grad Enrollment 1967-2015.csv")
+
+
+```
+
+
+1) Male and female graduate enrollment (1967 - 2015). Compare trends in total graduate enrollment for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
+
+```{r}
+
+# compare graphically
+Grad_total<- ggplot(GradEnroll, aes(x= Year))+
+  geom_line(aes(y=Femails, color="Female"))+
+  geom_line(aes(y=Males, color="Male"))+
+  ylab("Enrolled Graduate Students")+
+  ggtitle("Total US Male and Female Graduate Student (1967 - 2015) ")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), panel.background = element_blank(),
+        axis.line = element_line(colour = "black")) +
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_color_discrete(name = " ")
+Grad_total
+
+
+Grad_parttime<- ggplot(GradEnroll, aes(x= Year))+
+  geom_line(aes(y=Fparttime, color="Female"))+
+  geom_line(aes(y=Mparttime, color="Male"))+
+  ylab("Enrolled Graduate Students")+
+  ggtitle("US Graduate Student Male and Female Part Time Enrollment (1967 - 2015) ")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), panel.background = element_blank(),
+        axis.line = element_line(colour = "black")) +
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0)) +
+ scale_color_discrete(name = " ")
+
+
+Grad_parttime
+
+Grad_fulltime<- ggplot(GradEnroll, aes(x= Year))+
+  geom_line(aes(y=Ffulltime, color="Female"))+
+  geom_line(aes(y=Mfulltime, color="Male"))+
+  ylab("Enrolled Graduate Students")+
+  ggtitle("US Graduate Student Male and Female Part Time Enrollment (1967 - 2015) ")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), panel.background = element_blank(),
+        axis.line = element_line(colour = "black")) +
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_color_discrete(name = " ")
+
+
+Grad_fulltime
+
+Grad_Private_Public<-ggplot(GradEnroll, aes(x= Year))+
+  geom_line(aes(y=private, color= "Private"))+
+  geom_line(aes(y=public, color="Public"))+
+  ylab("Enrolled Graduate Students")+
+  scale_y_continuous(expand = c(0,0)) +
+  scale_x_continuous(expand = c(0,0)) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), panel.background = element_blank(),
+        axis.line = element_line(colour = "black")) +
+  ggtitle("US Graduate Student Enrolled in Private and Public Schools (1967 - 2015)")+
+  scale_color_discrete(name = " ")
+
+
+Grad_Private_Public
+
+
+
+
+```
+
+
+
+```{r}
+#  wilcoxon rank  
+
+#Ho = Ranks are equal
+#Ha= Ranks are not equal
+
+wilcox.test(GradEnroll$Mfulltime, GradEnroll$Ffulltime)
+
+#p value = .04 thus  the Female and male fulltime students differ significantly 
+
+wilcox.test(GradEnroll$Mparttime, GradEnroll$Fparttime)
+# p value <.001 thus the Female and male part time students differ significantly
+
+wilcox.test(GradEnroll$private, GradEnroll$public)
+# p value < .001 thus the number of students enrolled in public and private universities differ significantly
+
+```
