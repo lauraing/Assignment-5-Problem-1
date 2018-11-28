@@ -1,0 +1,13 @@
+---
+title: "Assignment 5-Problem 1"
+author: "Laura Ingulsrud"
+date: "11/28/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1) Male and female graduate enrollment (1967 - 2015). Compare trends in total graduate enrollment
+for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
