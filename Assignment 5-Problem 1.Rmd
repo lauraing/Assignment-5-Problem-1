@@ -22,7 +22,6 @@ for males and females (including full-time/part-time and private/public universi
 
 GradEnroll<- read.csv("Grad Enrollment 1967-2015.csv")
 
-
 ```
 
 
@@ -31,9 +30,11 @@ GradEnroll<- read.csv("Grad Enrollment 1967-2015.csv")
 ```{r}
 
 # compare graphically
-Grad_total<- ggplot(GradEnroll, aes(x= Year))+
-  geom_line(aes(y=Femails, color="Female"))+
-  geom_line(aes(y=Males, color="Male"))+
+Grad_total<- ggplot(GradEnroll, aes(x= Year, y= )) +
+  geom_point(aes(y=Femails, color="Total Females"))+
+  geom_point(aes(y=Males, color="Total Males"))+
+  geom_smooth(method=lm, se=TRUE, size=.5, color= "grey20", aes(y = Males))+
+  geom_smooth(method=lm, se=TRUE, size=.5, color= "grey20", aes(y = Femails))+
   ylab("Enrolled Graduate Students")+
   ggtitle("Total US Male and Female Graduate Student (1967 - 2015) ")+
   theme(panel.grid.major = element_blank(),
@@ -45,6 +46,20 @@ Grad_total<- ggplot(GradEnroll, aes(x= Year))+
 Grad_total
 
 
+
+# compare statistically- linear regression
+
+Grad_model_F <- lm(Femails ~ Year, data = GradEnroll)
+Grad_model_F
+# y intercept = -58955502 , Slope= 30126..... function:  y= 30126x + -58955502..... this will allow you to find the amount of Female graduate students in any given year.
+
+Grad_model_M <- lm(Males ~ Year, data = GradEnroll)
+Grad_model_M
+ # y intercept=  -17112153, Slope= 9069 .....  function:  y= 9069x + -17112153... this will allow you to find the amount of male graduate students in any given year.
+
+
+
+# Possibly unnecessary graphs?  Or maybe ok beacause they show neat relationships?
 Grad_parttime<- ggplot(GradEnroll, aes(x= Year))+
   geom_line(aes(y=Fparttime, color="Female"))+
   geom_line(aes(y=Mparttime, color="Male"))+
@@ -56,15 +71,14 @@ Grad_parttime<- ggplot(GradEnroll, aes(x= Year))+
   scale_x_continuous(expand = c(0,0)) +
   scale_y_continuous(expand = c(0,0)) +
  scale_color_discrete(name = " ")
-
-
 Grad_parttime
+
 
 Grad_fulltime<- ggplot(GradEnroll, aes(x= Year))+
   geom_line(aes(y=Ffulltime, color="Female"))+
   geom_line(aes(y=Mfulltime, color="Male"))+
   ylab("Enrolled Graduate Students")+
-  ggtitle("US Graduate Student Male and Female Part Time Enrollment (1967 - 2015) ")+
+  ggtitle("US Graduate Student Male and Female Full Time Enrollment (1967 - 2015) ")+
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(), panel.background = element_blank(),
         axis.line = element_line(colour = "black")) +
@@ -86,8 +100,6 @@ Grad_Private_Public<-ggplot(GradEnroll, aes(x= Year))+
         axis.line = element_line(colour = "black")) +
   ggtitle("US Graduate Student Enrolled in Private and Public Schools (1967 - 2015)")+
   scale_color_discrete(name = " ")
-
-
 Grad_Private_Public
 
 
