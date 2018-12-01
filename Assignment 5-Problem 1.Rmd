@@ -13,11 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r,echo = FALSE, message = FALSE}
 library(tidyverse)
 ```
+
+
 1) Male and female graduate enrollment (1967 - 2015). Compare trends in total graduate enrollment
 for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
 https://github.com/lauraing/Assignment-5-Problem-1.git
-
-
 
 ```{r}
 
@@ -28,7 +28,7 @@ GradEnroll<- read.csv("Grad Enrollment 1967-2015.csv")
 
 ```{r}
 
-# compare graphically
+# compare total female and total male graduat enrolment graphically
 Grad_total<- ggplot(GradEnroll, aes(x= Year, y= )) +
   geom_point(aes(y=Femails, color="Total Females"))+
   geom_point(aes(y=Males, color="Total Males"))+
@@ -43,22 +43,51 @@ Grad_total<- ggplot(GradEnroll, aes(x= Year, y= )) +
   scale_y_continuous(expand = c(0,0)) +
   scale_color_discrete(name = " ")
 Grad_total
+```
 
+```{r}
 
-
-# compare statistically- linear regression
+#compare statistically- linear regression for the total Female graduate enrollment
 
 Grad_model_F <- lm(Femails ~ Year, data = GradEnroll)
-Grad_model_F
+summary(Grad_model_F)
 # y intercept = -58955502 , Slope= 30126..... function:  y= 30126x + -58955502..... this will allow you to find the amount of Female graduate students in any given year.
 
+# Test for Persions R
+cor.test(GradEnroll$Femails, GradEnroll$Year)
+# Persons R=0.9913086 
+
+#Year significantly predicts Female Graduate enrolment (*b*= 30,130, t(47)= 51.66, *p* < 0.001) with a strong positive correlation between the two (Pearson's *r* = 0.99). The overall model (y= 30,130(Year) - 0.57) explains a significant amount of variance in sepal width (F(1,47)= 2669, *p*<0.001, $R^2$= 0.55)
+
+
+# Example from Allison: 
+#*Setosa* sepal length significantly predicts sepal width (*b* = 0.79, t(48) = 7.6, *p* < 0.001) with a strong positive correlation between the two (Pearson's *r* = 0.74). The overall model ($width = 0.79(length) - 0.57$; both in centimeters) explains a significant amount of variance in sepal width (F(1,48) = 59, *p* < 0.001, $R^2$ = 0.55)."
+
+```
+
+
+
+```{r}
+#compare statistically- linear regression for the total male graduate enrollment
+
 Grad_model_M <- lm(Males ~ Year, data = GradEnroll)
-Grad_model_M
- # y intercept=  -17112153, Slope= 9069 .....  function:  y= 9069x + -17112153... this will allow you to find the amount of male graduate students in any given year.
+summary(Grad_model_M)
+# y intercept=  -17112153, Slope= 9069 .....  function:  y= 9069x + -17112153... this will allow you to find the amount of male graduate students in any given year.
+
+# Test for Persions R
+cor.test(GradEnroll$Males, GradEnroll$Year)
+# Persons R=0.9243741 
+ 
+# Explanation : 
+#Year significantly predicts Male Graduate enrolment (*b*= 9069, t(47)= 16.6, *p* < 0.001) with a strong positive correlation between the two (Pearson's *r* = .92). The overall model (y= 9069(Year) - 17112153) explains a significant amount of variance in sepal width(F(1,47)= 276, *p*<0.001, $R^2$= 0.85)
+
+```
 
 
+```{r}
 
-# Possibly unnecessary graphs?  Or maybe ok beacause they show neat relationships?
+# Potentially unnecessary graphs?  .. only include if we want to... some show neat trends
+
 Grad_parttime<- ggplot(GradEnroll, aes(x= Year))+
   geom_line(aes(y=Fparttime, color="Female"))+
   geom_line(aes(y=Mparttime, color="Male"))+
