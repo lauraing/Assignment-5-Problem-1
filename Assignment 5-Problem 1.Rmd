@@ -14,7 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 1) Male and female graduate enrollment (1967 - 2015). Compare trends in total graduate enrollment
-for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.https://github.com/lauraing/Assignment-5-Problem-1.git
+for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
+https://github.com/lauraing/Assignment-5-Problem-1.git
 
 
 
@@ -24,8 +25,6 @@ GradEnroll<- read.csv("Grad Enrollment 1967-2015.csv")
 
 ```
 
-
-1) Male and female graduate enrollment (1967 - 2015). Compare trends in total graduate enrollment for males and females (including full-time/part-time and private/public universities) in the United States from 1967 - 2015. Describe your results statistically, graphically and in text.
 
 ```{r}
 
@@ -108,21 +107,3 @@ Grad_Private_Public
 ```
 
 
-
-```{r}
-#  wilcoxon rank  
-
-#Ho = Ranks are equal
-#Ha= Ranks are not equal
-
-wilcox.test(GradEnroll$Mfulltime, GradEnroll$Ffulltime)
-
-#p value = .04 thus  the Female and male fulltime students differ significantly 
-
-wilcox.test(GradEnroll$Mparttime, GradEnroll$Fparttime)
-# p value <.001 thus the Female and male part time students differ significantly
-
-wilcox.test(GradEnroll$private, GradEnroll$public)
-# p value < .001 thus the number of students enrolled in public and private universities differ significantly
-
-```
